@@ -97,7 +97,8 @@ psql postgres
 CREATE DATABASE insurance_company;
 ```
 
-Дальше можно либо импортнуть готовую (надо выйти из postgres, cntr+X):
+Дальше можно либо импортнуть готовую 
+(надо выйти из postgres, cntr+X - но проще всего прогнать следующую команду в паралельно открытом терминале):
 
 ```
 psql -d insurance_company -f db_dump.sql;
@@ -106,7 +107,7 @@ psql -d insurance_company -f db_dump.sql;
 Либо прогнать создание с нуля:
 
 ```
-\c insurance_company;
+\c insurance_company (все в изначальном терминале);
 
 ```
 ```
