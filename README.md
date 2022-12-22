@@ -202,3 +202,5 @@ join risk on risk_in_program.risk_id = risk.risk_id
 group by 1;
 ```
 
+
+### Вот и все, спасибо за курс!
