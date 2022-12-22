@@ -93,10 +93,11 @@ psql postgres
 
 ### Теперь создадим базу данных
 ```
-CREATE DATABASE insurance_company
+CREATE DATABASE insurance_company;
 ```
 
-Дальше можно либо импортнуть готовую:
+Дальше можно либо импортнуть готовую (надо выйти из postgres, cntr+X):
+
 ```
 psql -d insurance_company -f db_dump.sql;
 
@@ -104,11 +105,11 @@ psql -d insurance_company -f db_dump.sql;
 Либо прогнать создание с нуля:
 
 ```
-\c insurance_company
+\c insurance_company;
 
 ```
 ```
-\i путь_до_файла/db_creation.sql
+\i путь_до_файла/db_creation.sql;
 
 ```
 
@@ -120,7 +121,7 @@ psql -d insurance_company -f db_dump.sql;
 
 #### Прогоним тесты на тригеры (в скрипте неправильные инсерты)
 ```
-\i trigers_tests.sql
+\i trigers_tests.sql;
 ```
 
 Видим такие ошибки:
@@ -141,7 +142,7 @@ CONTEXT:  PL/pgSQL function clinic_agreement_check() line 5 at RAISE
 
 ### Далее по плану функции и примеры использования (по сути тесты) - их две: 
 ```
-\i путь_до_файла/functions.sql
+\i путь_до_файла/functions.sql;
 ```
 1) Функция, нормализующая номер телефона - может быть полезно, если атрибут с полем передается во фронт и хочется, чтобы при нажатии сразу шел набор. 
 
@@ -156,13 +157,13 @@ select title, normalized_phone(contact_info) from clinic;
 ```
 select patient_id, price/service_days(start_date, end_date)
 from slot
-join program on slot.program_id = program.program_id
+join program on slot.program_id = program.program_id;
 ```
 
 ### Далее прогоним тестовые запросы - их немного: 
 
 ```
-\i путь_до_файла/tests.sql
+\i путь_до_файла/tests.sql;
 ```
 
 1) доля каждого пациента в общей выручке (хотим знать, равномерно ли наши пациенты участвуют в выручке)
@@ -171,7 +172,7 @@ join program on slot.program_id = program.program_id
 select patient_id, sum(price)::numeric/(sum(price) over())::numeric "доля пациента в общей выручке"
 from slot
 join program on slot.program_id = program.program_id
-group by patient_id, price
+group by patient_id, price;
 ```
 
 2) активные клиники активных пациентов (например, будем отображать на карте только такие клиники)
@@ -181,7 +182,7 @@ from clinic_in_program
 join clinic on clinic.clinic_id = clinic_in_program.clinic_id
 join program on clinic_in_program.program_id =  program.program_id
 where program.program_id in  (select program_id from slot where now() between start_date and end_date)
-and clinic.clinic_id in (select clinic_id from clinic_agreement where now() between start_date and end_date)
+and clinic.clinic_id in (select clinic_id from clinic_agreement where now() between start_date and end_date);
 ```
 
 
@@ -190,7 +191,7 @@ and clinic.clinic_id in (select clinic_id from clinic_agreement where now() betw
 with rich_patients as(
     select patient_id, slot.program_id from slot
      join program on slot.program_id = program.program_id
-                         and price > 1000
+                         and price > 1000;
 
 )
 
