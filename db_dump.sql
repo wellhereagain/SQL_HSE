@@ -37,6 +37,21 @@ $$;
 ALTER FUNCTION public.clinic_agreement_check() OWNER TO svetlanamaslennikova;
 
 --
+-- Name: normalized_phone(character varying); Type: FUNCTION; Schema: public; Owner: svetlanamaslennikova
+--
+
+CREATE FUNCTION public.normalized_phone(phone character varying) RETURNS text
+    LANGUAGE plpgsql
+    AS $$
+        BEGIN
+                RETURN concat('8', right(trim(phone)::varchar, 10));
+        END;
+$$;
+
+
+ALTER FUNCTION public.normalized_phone(phone character varying) OWNER TO svetlanamaslennikova;
+
+--
 -- Name: patient_check(); Type: FUNCTION; Schema: public; Owner: svetlanamaslennikova
 --
 
@@ -78,6 +93,23 @@ $$;
 
 
 ALTER FUNCTION public.program_check() OWNER TO svetlanamaslennikova;
+
+--
+-- Name: service_days(date, date); Type: FUNCTION; Schema: public; Owner: svetlanamaslennikova
+--
+
+CREATE FUNCTION public.service_days(start_date date, end_date date) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+        BEGIN
+                RETURN
+
+                    extract('days' from least(now(), end_date) - start_date + interval '1 day');
+        END;
+$$;
+
+
+ALTER FUNCTION public.service_days(start_date date, end_date date) OWNER TO svetlanamaslennikova;
 
 --
 -- Name: slot_check(); Type: FUNCTION; Schema: public; Owner: svetlanamaslennikova
